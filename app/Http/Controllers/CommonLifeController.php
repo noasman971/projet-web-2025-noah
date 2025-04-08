@@ -24,18 +24,36 @@ class CommonLifeController extends Controller
         $common_task->name = $request->input('name');
         $common_task->description = $request->input('description');
         $common_task->save();
-        return redirect('/dashboard');
+        return redirect()->route('common-life.index');
     }
 
     public function update(Request $request, $id) {
         $common_task = CommonTask::findOrFail($id);
-        if ($request->name != null) {
 
-            $common_task->update($request->name);
+        $name = $request->input('name');
+        $description = $request->input('description');
+        $validate = $request->input('select');
+        $created = $request->input('created');
+        $time = $request->input('time');
+
+        if ($name){
+            $common_task->name = $name;
         }
-        if($request->description != null) {
-            $common_task->update($request->description);
+        if ($description){
+            $common_task->description = $description;
         }
+        if ($validate){
+            $common_task->validate = $validate;
+        }
+        if ($created){
+            $common_task->created_at = $created;
+        }
+        if ($time){
+            $common_task->time = $time;
+        }
+        $common_task->save();
+
+        return redirect()->route('common-life.index');
     }
 
 

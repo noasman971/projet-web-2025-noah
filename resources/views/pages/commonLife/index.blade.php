@@ -45,31 +45,67 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <form method="POST" action="{{route('common-life.update')}}">
-                        @method('PUT')
-                        @csrf
+
                         @foreach($commonTasks as $commonTask)
                         <tr>
+
+                            <form method="POST" action="{{route('common-life.update', $commonTask->id)}}">
+                                @csrf
+                                @method('PUT')
                             <td>
-                                <x-forms.input type="text" value="{{$commonTask->name}}" name="name" Onchange="this.form.submit()"/>
+                                <x-forms.input type="text" value="{{$commonTask->name}}" name="name"  onchange="this.form.submit()"/>
+                            </td>
+
+                            </form>
+
+
+
+
+                            <form method="POST" action="{{route('common-life.update', $commonTask->id)}}">
+                                @csrf
+                                @method('PUT')
+                            <td>
+                                <x-forms.input type="text" value="{{$commonTask->description}}"  name="description" onchange="this.form.submit()"/>
+                            </td>
+
+                            </form>
+
+
+
+                            <form method="POST" action="{{route('common-life.update', $commonTask->id)}}">
+                                @csrf
+                                @method('PUT')
+                            <td>
+                                <x-forms.dropdown onchange="this.form.submit()" name="validate">
+                                    <option value="0" {{$commonTask->validate == 0 ? 'selected' : ''}}>en cours</option>
+                                    <option value="1" {{$commonTask->validate == 1 ? 'selected' : ''}}>validé</option>
+                                </x-forms.dropdown>
 
                             </td>
+                            </form>
+
+                            <form method="POST" action="{{route('common-life.update', $commonTask->id)}}">
+                                @csrf
+                                @method('PUT')
                             <td>
-                                <x-forms.input type="text" value="{{$commonTask->description}}"  name="description" Onchange="this.form.submit()"/>
+                                <x-forms.input type="datetime-local" value="{{$commonTask->created_at}}" name="created" onchange="this.form.submit()" />
                             </td>
+
+                            </form>
+
+                            <form method="POST" action="{{route('common-life.update', $commonTask->id)}}">
+                                @csrf
+                                @method('PUT')
+
                             <td>
-                                <x-forms.input type="text" value="{{$commonTask->validate}}"  name="validate" Onchange="this.form.submit()"/>
-                            </td>
-                            <td>
-                                <x-forms.input type="datetime-local" value="{{$commonTask->created_at}}" name="created" Onchange="this.form.submit()" />
-                            </td>
-                            <td>
-                                <x-forms.input type="datetime-local" value="{{$commonTask->time}}"  name="time"  Onchange="this.form.submit()" />
+                                <x-forms.input type="datetime-local" value="{{$commonTask->time}}"  name="time" onchange="this.form.submit()" />
 
                             </td>
+
+                            </form>
+
                         </tr>
                         @endforeach
-                    </form>
 
                     </tbody>
                 </table>

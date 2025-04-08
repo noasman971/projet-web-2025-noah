@@ -6,7 +6,8 @@
     'value'         => '',
     'resetLink'     => false,
     'disabled'      => false,
-    'messages'      => false
+    'messages'      => false,
+    'onchange'      => ""
 ])
 
 <div {{ $attributes->merge(['class' => 'flex flex-col gap-1']) }}>
@@ -34,11 +35,13 @@
             <label class="form-label font-normal text-gray-900">{{ $label }}</label>
         @endif
         <input class="input" {{ $disabled ? 'disabled' : '' }} name="{{ $name }}"
-               placeholder="{{ $placeholder }}" type="{{ $type }}" value="{{ $value }}"/>
+               placeholder="{{ $placeholder }}" type="{{ $type }}" value="{{ $value }}" onchange="{{$onchange}}"/>
     @endif
+
 
     @if($messages)
         <x-forms.input-error :messages="$messages" class="mt-1" />
     @endif
+
 </div>
 

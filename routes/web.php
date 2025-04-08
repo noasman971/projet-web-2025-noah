@@ -45,6 +45,8 @@ Route::middleware('auth')->group(function () {
 
         // Common life
         Route::get('common-life', [CommonLifeController::class, 'index'])->name('common-life.index');
+        Route::post('common-life', [CommonLifeController::class, 'create'])->name('common-life.create');
+        Route::put('common-life', [CommonLifeController::class, 'update'])->name('common-life.update');
     });
 
 });

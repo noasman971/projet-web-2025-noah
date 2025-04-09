@@ -4,11 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CommonCreateTaskRequest;
 use App\Models\CommonTask;
+use App\Policies\StudentPolicy;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class CommonLifeController extends Controller
 {
+
     public function index() {
+
         $commonTasks = CommonTask::all();
 
         return view('pages.commonLife.index', compact('commonTasks'));

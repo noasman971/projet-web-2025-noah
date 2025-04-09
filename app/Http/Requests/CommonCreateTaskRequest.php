@@ -19,4 +19,14 @@ class CommonCreateTaskRequest extends FormRequest
             'description' => ['required', 'string', 'max:255'],
         ];
     }
+
+    public function messages(): array
+    {
+        return [
+            'name.required' => 'Nom obligatoire',
+            'description.required' => 'Description obligatoire',
+            'name.max'=>'Le nom a pour maximum 255 caractères',
+            'description.max' => 'La description a pour maximum 255 caractères',
+        ];
+    }
 }

@@ -7,6 +7,16 @@
         </h1>
     </x-slot>
 
+
+    @if ($errors->any())
+        <div class="alert alert-danger text-red-400">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     <form method="POST" class="card-body flex flex-col gap-5 p-10" action="{{ route('common-life.create') }}">
         @csrf
 
@@ -16,7 +26,7 @@
         <x-forms.input label="{{ __('Description de la tâche') }}" name="description"
                        type="text" placeholder="dans la cuisine"
         />
-        <x-forms.primary-button>valider</x-forms.primary-button>
+        <x-forms.primary-button>Valider</x-forms.primary-button>
     </form>
 
     <div class="card min-w-full">
@@ -43,6 +53,9 @@
                     </th>
                     <th>
                         Date de validation
+                    </th>
+                    <th>
+                        Supprimer
                     </th>
                 </tr>
                 </thead>
@@ -89,8 +102,15 @@
                                 <x-forms.input type="datetime-local" value="{{$commonTask->time}}"  name="time" onchange="this.form.submit()" />
 
                             </td>
-
                         </form>
+                        <form method="POST" action="{{route('common-life.destroy', $commonTask->id)}}">
+                            @csrf
+                            @method('DELETE')
+                            <td>
+                                    <x-forms.primary-button>Supprimer</x-forms.primary-button>
+                            </td>
+                        </form>
+
 
                     </tr>
                 @endforeach

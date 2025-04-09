@@ -31,6 +31,8 @@
         document.documentElement.classList.add(themeMode);
     }
 </script>
+
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 <!-- End of Theme Mode -->
 
 <!-- Page -->

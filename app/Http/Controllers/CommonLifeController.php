@@ -51,4 +51,13 @@ class CommonLifeController extends Controller
     }
 
 
+    public function destroy($id) {
+
+        $common_task = CommonTask::findOrFail($id);
+        $common_task->delete();
+        return redirect()->route('common-life.index');
+
+    }
+
+
 }

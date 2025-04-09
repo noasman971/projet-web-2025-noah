@@ -35,7 +35,7 @@
             <label class="form-label font-normal text-gray-900">{{ $label }}</label>
         @endif
         <input class="input" {{ $disabled ? 'disabled' : '' }} name="{{ $name }}"
-               placeholder="{{ $placeholder }}" type="{{ $type }}" value="{{ $value }}" onchange="{{$onchange}}"/>
+               placeholder="{{ $placeholder }}" type="{{ $type }}" value="{{ $value }}" onchange="{{$onchange}}" />
     @endif
 
 

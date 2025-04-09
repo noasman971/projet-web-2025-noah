@@ -7,7 +7,8 @@
     'resetLink'     => false,
     'disabled'      => false,
     'messages'      => false,
-    'onchange'      => ""
+    'onchange'      => "",
+    'class'         => '',
 ])
 
 <div {{ $attributes->merge(['class' => 'flex flex-col gap-1']) }}>
@@ -34,7 +35,7 @@
         @if($label)
             <label class="form-label font-normal text-gray-900">{{ $label }}</label>
         @endif
-        <input class="input" {{ $disabled ? 'disabled' : '' }} name="{{ $name }}"
+        <input class="input {{$class}}" {{ $disabled ? 'disabled' : '' }} name="{{ $name }}"
                placeholder="{{ $placeholder }}" type="{{ $type }}" value="{{ $value }}" onchange="{{$onchange}}" />
     @endif
 

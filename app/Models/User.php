@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Console\View\Components\Task;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -80,6 +81,12 @@ class User extends Authenticatable
         return $this->belongsToMany(School::class, 'users_schools')
             ->withPivot('role')
             ->first();
+    }
+
+    public function task()
+    {
+        return $this->hasMany(CommonTask::class);
+
     }
 
 

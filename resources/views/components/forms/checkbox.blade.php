@@ -1,12 +1,20 @@
 @props([
-    'label'         => 'Text',
+    'label'         => '',
     'disabled'      => false,
-    'name'          => 'input_name'
+    'name'          => 'input_name',
+    'checked'       => false,
 ])
 
 <label class="checkbox-group">
-    <input class="checkbox checkbox-sm" {{ $disabled ? 'disabled' : '' }} name="{{ $name }}"
-           type="checkbox" value="1"/>
+    @if($checked == true)
+        <input class="checkbox checkbox-sm" {{ $disabled ? 'disabled' : '' }} name="{{ $name }}"
+               type="checkbox" value="1" checked/>
+    @endif
+    @if($checked == false)
+        <input class="checkbox checkbox-sm" {{ $disabled ? 'disabled' : '' }} name="{{ $name }}"
+               type="checkbox" value="1"/>
+    @endif
+
     <span class="checkbox-label">
        {{ $label }}
       </span>

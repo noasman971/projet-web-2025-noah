@@ -13,7 +13,7 @@ class CommonTaskPolicy
     {
         //
     }
-    public function viewAnyStudent(User $user)
+    public function viewAnyAdmin(User $user)
     {
         $school = $user->school()->pivot->role;
 
@@ -24,7 +24,17 @@ class CommonTaskPolicy
         else{
             return false;
         }
+    }
 
+    public function viewAnyStudent(User $user)
+    {
+        $school = $user->school()->pivot->role;
 
+        if ($school === 'student') {
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 }

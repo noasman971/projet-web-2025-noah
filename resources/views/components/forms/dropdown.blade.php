@@ -4,14 +4,15 @@
     'value'         => '',
     'disabled'      => false,
     'messages'      => false,
-    'onchange'      =>""
+    'onchange'      =>"",
+    'class'        => '',
 ])
 
-<div class="flex flex-col gap-1">
+<div class="flex flex-col gap-1 min-w-[90px]">
     @if($label)
         <label class="form-label font-normal text-gray-900">{{ $label }}</label>
     @endif
-    <select class="select" name="select" {{ $disabled ? 'disabled' : '' }} name="{{ $name }}" onchange="{{$onchange}}">
+    <select class="select {{$class}}" name="select" {{ $disabled ? 'disabled' : '' }} name="{{ $name }}" onchange="{{$onchange}}">
         {{ $slot }}
     </select>
 

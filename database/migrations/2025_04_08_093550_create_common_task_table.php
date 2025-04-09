@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('common_tasks', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('description');
+            $table->string('description', 1000);
             $table->dateTime('time')->nullable();
             $table->boolean('validate')->default(false);
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->string('commentary', 1000)->nullable();
             $table->timestamps();
         });
     }

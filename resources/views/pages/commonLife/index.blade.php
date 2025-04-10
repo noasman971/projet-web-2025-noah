@@ -1,10 +1,11 @@
 <x-app-layout>
     <x-slot name="header">
-        <h1 class="flex items-center gap-1 text-sm font-normal">
+        <h1 class="flex items-center text-sm font-normal">
             <span class="text-gray-700">
                 {{ __('Vie Commune') }}
             </span>
         </h1>
+
     </x-slot>
 
 
@@ -71,8 +72,8 @@
                             <form method="POST" action="{{route('common-life.update', $commonTask->id)}}">
                                 @csrf
                                 @method('PUT')
-                                <td>
-                                    <textarea rows="3" style="resize: none" name="name" onchange="this.form.submit()" class="resize-none outline-none">{{$commonTask->name}}</textarea>
+                                <td class="flex items-center">
+                                    <textarea rows="3" style="resize: none" name="name" onchange="this.form.submit()" class="resize-none outline-none items-center">{{$commonTask->name}}</textarea>
                                 </td>
 
 
@@ -137,16 +138,16 @@
 
 
 
-        <?php
-            echo Carbon\Carbon::now();
-            ?>
 
 
+        <div class="px-4 py-2 flex ">
 
-
-
-        <div class="px-4 py-2">
             <h1 class="text-gray-800 font-bold text-2xl uppercase">Tâches communes</h1>
+            <a href="{{route('history.index')}}"  class="absolute top-0 right-0 text-5xl mt-2.5">
+                <i class="ki-filled ki-time"></i>
+
+            </a>
+
         </div>
 
         <div class="flex flex-wrap lg:w-4/5 sm:mx-auto sm:mb-2 -mx-2 p-4">
@@ -184,7 +185,7 @@
 
                         <div id="divRemove" class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50  dark:border-gray-600 ">
                             <div class="px-4 py-2 bg-white rounded-t-lg dark:bg-gray-800">
-                                <textarea name="comment" rows="4" class="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 outline-none" placeholder="Ecrivez un commentaire..." required ></textarea>
+                                <textarea name="comment" rows="2" class="w-full px-0 text-sm text-gray-900 bg-white border-0 dark:bg-gray-800 dark:text-white dark:placeholder-gray-400 outline-none" placeholder="Ecrivez un commentaire..." required ></textarea>
                             </div>
                             <div class="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600 border-gray-200" >
                                 <x-forms.primary-button>Poster le commentaire</x-forms.primary-button>

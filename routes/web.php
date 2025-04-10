@@ -3,6 +3,7 @@
 use App\Http\Controllers\CohortController;
 use App\Http\Controllers\CommonLifeController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RetroController;
 use App\Http\Controllers\StudentController;
@@ -49,6 +50,9 @@ Route::middleware('auth')->group(function () {
         Route::put('common-life/{id}/pointer', [CommonLifeController::class, 'pointer'])->name('common-life.pointer');
         Route::put('common-life/{id}', [CommonLifeController::class, 'update'])->name('common-life.update');
         Route::delete('common-life/{id}', [CommonLifeController::class, 'destroy'])->name('common-life.destroy');
+
+        // History
+        Route::get('history', [HistoryController::class, 'index'])->name('history.index');
     });
 
 });

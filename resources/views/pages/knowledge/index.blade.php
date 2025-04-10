@@ -6,4 +6,11 @@
             </span>
         </h1>
     </x-slot>
+
+
+
+    <p>Réponse de Gemini : </p>
+
+
+
 </x-app-layout>

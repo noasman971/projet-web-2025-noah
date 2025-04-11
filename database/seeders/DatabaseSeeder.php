@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Cohort;
 use App\Models\CommonTask;
 use App\Models\School;
 use App\Models\User;
@@ -36,6 +37,7 @@ class DatabaseSeeder extends Seeder
             'last_name'     => 'Student',
             'first_name'    => 'Student',
             'email'         => 'student@codingfactory.com',
+            'cohort_id'   => 1,
             'password'      => Hash::make('123456'),
         ]);
 
@@ -106,6 +108,15 @@ class DatabaseSeeder extends Seeder
             'name'          => 'Suivi des progrès des élèves',
             'description'   => 'Évaluer régulièrement les progrès des élèves et ajuster les méthodes d’enseignement en conséquence.',
             'validate'      => false,
+        ]);
+
+
+        Cohort::create([
+            'school_id'     => 1,
+            'name'          => 'Cohort 1',
+            'description'   => 'Cohort 1 description',
+            'start_date'    => now(),
+            'end_date'      => now()->addMonths(6),
         ]);
     }
 }

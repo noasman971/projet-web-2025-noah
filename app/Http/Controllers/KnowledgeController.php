@@ -26,6 +26,8 @@ class KnowledgeController extends Controller
         $questions = Question::all();
 
 
+
+
         return view('pages.knowledge.index', compact('qcm', 'questions'));
     }
 
@@ -45,11 +47,12 @@ class KnowledgeController extends Controller
 Tu es un professeur expert en informatique qui souhaite générer un questionnaire à choix multiples (QCM) pour ses élèves sur le langage {$langage}. Tu dois créer un tableau JSON contenant exactement {$number} questions, classées par niveau de difficulté : "débutant", "intermédiaire", et "avancé".
 
 ### Contraintes :
-- Les questions doivent être **variées et uniques**, même si la même demande est répétée avec le même langage. Ne réutilise pas les mêmes formulations ou exemples si le langage {$langage} est redemandé ultérieurement.
+- Les questions doivent être **variées et uniques**, même si la même demande est répétée avec le même langage. Ne réutilise pas les mêmes formulations ou exemples si le langage "{$langage}" est redemandé ultérieurement.
 - Si {$number} = 1, alors la seule question doit être de niveau "débutant". Il ne doit y avoir **aucune** question de niveau "intermédiaire" ou "avancé".
 - Sinon, répartis les questions de manière équilibrée entre les trois niveaux de difficulté.
 - Chaque question doit contenir exactement trois propositions de réponse : "answer_0", "answer_1", et "answer_2".
 - Le champ "correct_answer" doit indiquer la clé correspondant à la bonne réponse (ex. : "answer_1").
+- Chaque objet JSON doit également contenir une clé "link" de type string, qui contient l'URL d'une image trouvée sur Internet représentant visuellement le langage demandé (ex : logo, icône ou image officielle).
 
 ### Format JSON attendu :
 Réponds uniquement avec un tableau JSON **brut** (sans texte explicatif, sans balise markdown).
@@ -58,6 +61,7 @@ Chaque élément du tableau doit être un objet contenant :
 - "level" : "débutant", "intermédiaire" ou "avancé"
 - "answer_0", "answer_1", "answer_2" : réponses proposées
 - "correct_answer" : la clé correspondant à la bonne réponse
+- "link" : une URL valide pointant vers une image du langage {$langage}
 
 ### Exemple :
 [
@@ -67,12 +71,14 @@ Chaque élément du tableau doit être un objet contenant :
     "answer_0": "Une liste est mutable, un tuple est immutable.",
     "answer_1": "Un tuple est mutable, une liste est immutable.",
     "answer_2": "Il n'y a pas de différence.",
-    "correct_answer": "answer_0"
+    "correct_answer": "answer_0",
+    "link": "https://www.python.org/static/community_logos/python-logo-generic.svg"
   }
 ]
 
 Génère maintenant {$number} question(s) selon ces consignes.
 EOT;
+
 
 
 
@@ -97,9 +103,9 @@ EOT;
         $cleanJson = preg_replace('/\s*```$/', '', $cleanJson);
 
         $questions_json = json_decode($cleanJson, true);
-
         $qcm = new Qcm();
         $qcm->name = $langage;
+        $qcm->link = $questions_json[0]['link'];
         $qcm->save();
         for ($i = 0; $i < sizeof($questions_json); $i++) {
             $questions = new Question();

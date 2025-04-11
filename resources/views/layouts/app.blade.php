@@ -33,6 +33,7 @@
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+<link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
 <!-- End of Theme Mode -->
 
 <!-- Page -->

@@ -8,12 +8,19 @@ class Qcm extends Model
 {
 
     protected $fillable = [
-        'name'
+        'name',
+        'cohort_id',
+        'link'
     ];
 
     public function questions()
     {
         return $this->hasMany(Question::class);
+    }
+
+    public function cohort()
+    {
+        return $this->belongsTo(Cohort::class);
     }
 
 

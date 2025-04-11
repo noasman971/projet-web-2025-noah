@@ -26,6 +26,7 @@ class User extends Authenticatable
         'first_name',
         'email',
         'password',
+        'cohort_id',
     ];
 
     /**
@@ -87,6 +88,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(CommonTask::class);
 
+    }
+
+    public function cohort()
+    {
+        return $this->belongsTo(Cohort::class);
     }
 
 

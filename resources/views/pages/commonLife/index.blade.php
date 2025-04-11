@@ -69,7 +69,7 @@
                     @foreach($commonTasks as $commonTask)
                         <tr>
 
-                            <form method="POST" action="{{route('common-life.update', $commonTask->id)}}">
+                            <form method="POST" action="{{route('common-life.update', Crypt::encrypt($commonTask->id))}}">
                                 @csrf
                                 @method('PUT')
                                 <td>
@@ -114,7 +114,7 @@
 
                                 </td>
                             </form>
-                            <form method="POST" action="{{route('common-life.destroy', $commonTask->id)}}">
+                            <form method="POST" action="{{route('common-life.destroy', Crypt::encrypt($commonTask->id))}}">
                                 @csrf
                                 @method('DELETE')
                                 <td>
@@ -169,7 +169,7 @@
                 @endif
 
                 @if($commonTask->validate == 0)
-                <form method="POST" action="{{route('common-life.pointer', $commonTask->id)}}">
+                <form method="POST" action="{{route('common-life.pointer', Crypt::encrypt($commonTask->id))}}">
                     @csrf
                     @method('PUT')
 

@@ -41,6 +41,7 @@ class CommonLifeController extends Controller
      * Update the informations of the commons tasks
      */
     public function update(Request $request, $id) {
+        $id = decrypt($id);
         $common_task = CommonTask::findOrFail($id);
 
         $common_task->update([
@@ -63,6 +64,7 @@ class CommonLifeController extends Controller
      * Delete a common task
      */
     public function destroy($id) {
+        $id = decrypt($id);
 
         $common_task = CommonTask::findOrFail($id);
         $common_task->delete();
@@ -72,6 +74,8 @@ class CommonLifeController extends Controller
 
 
     public function pointer(Request $request, $id) {
+
+        $id = decrypt($id);
         $common_task = CommonTask::findOrFail($id);
         $common_task->update([
             'commentary' => $request->input('comment'),

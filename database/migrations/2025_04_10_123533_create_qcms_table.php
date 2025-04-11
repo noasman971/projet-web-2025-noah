@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->string('name');
+            $table->unsignedBigInteger('cohort_id')->nullable();
+            $table->string('link', 1000)->nullable();
         });
     }
 

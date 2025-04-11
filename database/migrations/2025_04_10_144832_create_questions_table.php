@@ -17,10 +17,10 @@ return new class extends Migration
             $table->foreignId('qcm_id')->constrained('qcms')->onDelete('cascade');
             $table->string('question');
             $table->string('level');
-            $table->string('answer_0');
-            $table->string('answer_1');
-            $table->string('answer_2');
-            $table->string('correct_answer');
+            $table->string('answer_0', 500);
+            $table->string('answer_1', 500);
+            $table->string('answer_2', 500);
+            $table->string('correct_answer', 500);
         });
     }
 

@@ -9,6 +9,9 @@
     'messages'      => false,
     'onchange'      => "",
     'class'         => '',
+    'min'           => '',
+    'max'           => '',
+
 ])
 
 <div {{ $attributes->merge(['class' => 'flex flex-col gap-1']) }}>
@@ -36,7 +39,7 @@
             <label class="form-label font-normal text-gray-900">{{ $label }}</label>
         @endif
         <input class="input {{$class}}" {{ $disabled ? 'disabled' : '' }} name="{{ $name }}"
-               placeholder="{{ $placeholder }}" type="{{ $type }}" value="{{ $value }}" onchange="{{$onchange}}" />
+               placeholder="{{ $placeholder }}" type="{{ $type }}" value="{{ $value }}" onchange="{{$onchange}}" min="{{$min}}" max="{{$max}}" />
     @endif
 
 

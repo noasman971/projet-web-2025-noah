@@ -13,6 +13,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 class CommonLifeController extends Controller
 {
 
+
     public function index() {
 
         $commonTasks = CommonTask::all();

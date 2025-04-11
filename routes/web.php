@@ -37,6 +37,8 @@ Route::middleware('auth')->group(function () {
 
         // Knowledge
         Route::get('knowledge', [KnowledgeController::class, 'index'])->name('knowledge.index');
+        Route::post('knowledge', [KnowledgeController::class, 'createQcm'])->name('knowledge.qcm');
+
 
         // Groups
         Route::get('groups', [GroupController::class, 'index'])->name('group.index');

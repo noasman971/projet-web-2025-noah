@@ -8,8 +8,13 @@ class Qcm extends Model
 {
 
     protected $fillable = [
-        'name',
+        'name'
     ];
+
+    public function questions()
+    {
+        return $this->hasMany(Question::class);
+    }
 
 
 }

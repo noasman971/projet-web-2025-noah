@@ -72,7 +72,7 @@
                             <form method="POST" action="{{route('common-life.update', $commonTask->id)}}">
                                 @csrf
                                 @method('PUT')
-                                <td class="flex items-center">
+                                <td>
                                     <textarea rows="3" style="resize: none" name="name" onchange="this.form.submit()" class="resize-none outline-none items-center">{{$commonTask->name}}</textarea>
                                 </td>
 

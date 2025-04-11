@@ -9,7 +9,26 @@
 
 
 
-    <p>Réponse de Gemini : </p>
+    <form method="POST" action="{{route('knowledge.qcm')}}" class="card-body flex flex-col gap-5 p-10">
+        @csrf
+        @if ($errors->any())
+            <div class="alert alert-danger text-red-400">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        <x-forms.input label="{{ __('Nom du bilan') }}" name="langage"
+                       type="text" placeholder="Bilan de connaissance"
+        />
+        <x-forms.input label="{{ __('Nombre de questions') }}" name="number" type="number" min="1" max="30" />
+
+        <x-forms.primary-button>Valider</x-forms.primary-button>
+    </form>
+
+
 
 
 

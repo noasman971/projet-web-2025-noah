@@ -13,7 +13,7 @@
             {{ session('error') }}
         </div>
     @endif
-    <form method="POST" action="{{route('knowledge.qcm')}}" class="card-body flex flex-col gap-5 p-10">
+    <form method="POST" id="create_qcm" action="{{route('knowledge.qcm')}}" class="card-body flex flex-col gap-5 p-10">
         @csrf
         @if ($errors->any())
             <div class="alert alert-danger">
@@ -30,8 +30,23 @@
         <x-forms.input label="{{ __('Nombre de questions') }}" name="number" type="number" min="1" max="30" />
         <x-forms.input label="{{ __('Nombre de réponse') }}" name="response" type="number" min="2" max="4" />
 
-        <x-forms.primary-button>Créér le bilan</x-forms.primary-button>
+        <x-forms.primary-button id="bilan_submit">Créér le bilan</x-forms.primary-button>
+
+        <span class="loading loading-dots loading-xl mx-auto hidden"></span>
+
+
     </form>
+    <script>
+        const form = document.getElementById("create_qcm");
+        const loading = document.querySelector('.loading');
+        const submitButton = document.getElementById("bilan_submit");
+
+        form.addEventListener('submit', function() {
+            loading.classList.remove('hidden');
+            submitButton.setAttribute('disabled', true);
+        });
+    </script>
+
 
 
 

@@ -78,16 +78,25 @@
 
                 </div>
 
+                <a href="{{route('adminKnowledge.index', Crypt::encrypt($qcms->id))}}">
+                    <div class="card-actions justify-end">
+                        <button class="btn btn-primary">Voir</button>
+                    </div>
+                </a>
 
-                <div class="card-actions justify-end">
-                    <button class="btn btn-primary">Voir</button>
-                </div>
             </div>
         </div>
 
 
         @endforeach
+
     </div>
 
 
+
+
+
+
+
 </x-app-layout>
+

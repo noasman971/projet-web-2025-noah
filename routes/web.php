@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminBilansController;
 use App\Http\Controllers\CohortController;
 use App\Http\Controllers\CommonLifeController;
 use App\Http\Controllers\DashboardController;
@@ -56,6 +57,9 @@ Route::middleware('auth')->group(function () {
 
         // History
         Route::get('history', [HistoryController::class, 'index'])->name('history.index');
+
+        // Admin Bilans
+        Route::get('adminKnowledge/{id}', [AdminBilansController::class, 'index'])->name('adminKnowledge.index');
     });
 
 });

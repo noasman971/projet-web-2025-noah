@@ -14,12 +14,13 @@ return new class extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->foreignId('qcm_id')->constrained('qcms')->onDelete('cascade');
+            $table->foreignId('bilans_id')->constrained('cohorts_bilans')->onDelete('cascade');
             $table->string('question');
             $table->string('level');
             $table->string('answer_0', 500);
-            $table->string('answer_1', 500);
-            $table->string('answer_2', 500);
+            $table->string('answer_1', 500)->nullable();
+            $table->string('answer_2', 500)->nullable();
+            $table->string('answer_3', 500)->nullable();
             $table->string('correct_answer', 500);
         });
     }

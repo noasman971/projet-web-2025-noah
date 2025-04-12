@@ -38,6 +38,7 @@ Route::middleware('auth')->group(function () {
         // Knowledge
         Route::get('knowledge', [KnowledgeController::class, 'index'])->name('knowledge.index');
         Route::post('knowledge', [KnowledgeController::class, 'createQcm'])->name('knowledge.qcm');
+        Route::put('knowledge/{id}', [KnowledgeController::class, 'updateQcmCohort'])->name('knowledge.update');
 
 
         // Groups

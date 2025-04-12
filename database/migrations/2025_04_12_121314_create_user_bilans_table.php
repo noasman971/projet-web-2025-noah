@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('qcms', function (Blueprint $table) {
+        Schema::create('user_bilans', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('name');
-            $table->unsignedBigInteger('cohort_id')->nullable();
-            $table->string('link', 1000)->nullable();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('bilan_id')->constrained('cohorts_bilans')->onDelete('cascade');
+            $table->integer('score')->nullable();
+            $table->dateTime('completed_at')->nullable();
         });
     }
 
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('qcms');
+        Schema::dropIfExists('user_bilans');
     }
 };

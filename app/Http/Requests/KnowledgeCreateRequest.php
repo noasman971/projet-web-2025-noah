@@ -24,6 +24,7 @@ class KnowledgeCreateRequest extends FormRequest
         return [
             'langage' => 'required|string|max:255',
             'number' => 'required|integer|min:1|max:30',
+            'response' => 'required|integer|min:2|max:4',
         ];
     }
 
@@ -37,6 +38,10 @@ class KnowledgeCreateRequest extends FormRequest
             'number.integer' => 'Le champ nombre doit être un entier.',
             'number.min' => 'Le champ nombre doit être supérieur ou égal à 1.',
             'number.max' => 'Le champ nombre ne doit pas dépasser 30.',
+            'response.required' => 'Le champ réponse est requis.',
+            'response.integer' => 'Le champ réponse doit être un entier.',
+            'response.min' => 'Le champ réponse doit être supérieur ou égal à 2.',
+            'response.max' => 'Le champ réponse ne doit pas dépasser 4.',
         ];
     }
 }

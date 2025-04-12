@@ -8,18 +8,19 @@ class Question extends Model
 {
 
     protected $fillable = [
-        'qcm_id',
+        'bilan_id',
         'question',
         'level',
         'answer_0',
         'answer_1',
         'answer_2',
+        'answer_3',
         'correct_answer'
     ];
 
-    public function qcm()
+    public function bilans()
     {
-        return $this->belongsTo(Qcm::class);
+        return $this->belongsTo(CohortsBilans::class);
     }
 
 

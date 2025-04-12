@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Qcm extends Model
+class CohortsBilans extends Model
 {
 
     protected $fillable = [
@@ -15,7 +15,7 @@ class Qcm extends Model
 
     public function questions()
     {
-        return $this->hasMany(Question::class);
+        return $this->hasMany(Question::class, 'bilans_id');
     }
 
     public function cohort()

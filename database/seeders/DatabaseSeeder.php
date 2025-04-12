@@ -110,11 +110,27 @@ class DatabaseSeeder extends Seeder
             'validate'      => false,
         ]);
 
-
+        // Create the default cohorts
         Cohort::create([
             'school_id'     => 1,
             'name'          => 'Cohort 1',
             'description'   => 'Cohort 1 description',
+            'start_date'    => now(),
+            'end_date'      => now()->addMonths(6),
+        ]);
+
+        Cohort::create([
+            'school_id'     => 1,
+            'name'          => 'Cohort 2',
+            'description'   => 'Cohort 2 description',
+            'start_date'    => now(),
+            'end_date'      => now()->addMonths(6),
+        ]);
+
+        Cohort::create([
+            'school_id'     => 1,
+            'name'          => 'Cohort 3',
+            'description'   => 'Cohort 3 description',
             'start_date'    => now(),
             'end_date'      => now()->addMonths(6),
         ]);

@@ -12,6 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('user_bilans', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
+
             $table->id();
             $table->timestamps();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');

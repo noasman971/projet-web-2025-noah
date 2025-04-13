@@ -23,8 +23,25 @@ class KnowledgeController extends Controller
      */
     public function index() {
 
-        $qcm = CohortsBilans::all();
         $cohort = Cohort::all();
+        $user = auth()->user();
+
+
+        if ($user->school()->pivot->role == 'student' && $user->cohort_id != null)
+        {
+            $qcm = CohortsBilans::where('cohort_id', $user->cohort_id)->get();
+        }
+        elseif ($user->school()->pivot->role == 'admin' || $user->school()->pivot->role == 'teacher')
+        {
+            $qcm = CohortsBilans::all();
+        }
+        else
+        {
+            $qcm = [];
+        }
+
+
+
 
 
 

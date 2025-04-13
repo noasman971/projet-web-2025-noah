@@ -15,8 +15,11 @@
 
     @for($index = 0; $index < $questions->count(); $index++)
         <div class="card bg-base-100 shadow-sm ">
-            {{$index+1}}.
-            {{ $questions[$index]->question }}
+            <div class="p-5 text-lg font-bold">
+                {{$index+1}}.
+                {{ $questions[$index]->question }}
+            </div>
+
             <div class="card-body">
                 <ul>
                     <li>
@@ -34,6 +37,9 @@
                     @if($questions[$index]->answer_3)
                         <li>
                             D. {{ $questions[$index]->answer_3 }}
+                        </li>
+                        <li>
+                            <span class="text-sm font-bold text-gray-500">Réponse correcte : {{ $questions[$index]->correct_answer }}</span>
                         </li>
                     @endif
 

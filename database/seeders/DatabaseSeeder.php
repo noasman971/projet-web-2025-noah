@@ -41,6 +41,7 @@ class DatabaseSeeder extends Seeder
             'password'      => Hash::make('123456'),
         ]);
 
+
         // Create the default school
         $school = School::create([
             'user_id'   => $user->id,

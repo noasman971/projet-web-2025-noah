@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RetroController;
+use App\Http\Controllers\StudentBilansController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\KnowledgeController;
 use App\Http\Controllers\GroupController;
@@ -60,6 +61,9 @@ Route::middleware('auth')->group(function () {
 
         // Admin Bilans
         Route::get('adminKnowledge/{id}', [AdminBilansController::class, 'index'])->name('adminKnowledge.index');
+
+        // Student Bilans
+        Route::get('studentKnowledge/{id}', [StudentBilansController::class, 'index'])->name('studentKnowledge.index');
     });
 
 });

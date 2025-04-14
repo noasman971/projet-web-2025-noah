@@ -27,7 +27,6 @@ class KnowledgeController extends Controller
         $cohort = Cohort::all();
         $user = auth()->user();
 
-        $user_bilans = UserBilans::where('user_id', $user->id)->get();
 
 
 
@@ -45,7 +44,11 @@ class KnowledgeController extends Controller
             $qcm = [];
         }
 
-        return view('pages.knowledge.index', compact('qcm', 'cohort', 'user_bilans'));
+//        foreach ($qcm as $qcms) {
+//            dump($qcms->user_bilans[0]->score);
+//        }
+
+        return view('pages.knowledge.index', compact('qcm', 'cohort'));
     }
 
 

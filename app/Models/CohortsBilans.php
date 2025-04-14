@@ -23,5 +23,10 @@ class CohortsBilans extends Model
         return $this->belongsTo(Cohort::class);
     }
 
+    public function user_bilans()
+    {
+        return $this->hasMany(UserBilans::class, 'bilan_id');
+    }
+
 
 }

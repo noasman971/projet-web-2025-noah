@@ -6,6 +6,7 @@ use App\Http\Requests\KnowledgeCreateRequest;
 use App\Models\Cohort;
 use App\Models\CohortsBilans;
 use App\Models\Question;
+use App\Models\UserBilans;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
@@ -26,7 +27,9 @@ class KnowledgeController extends Controller
         $cohort = Cohort::all();
         $user = auth()->user();
 
-        $user_bilans = $user->bilans()->get();
+        $user_bilans = UserBilans::where('user_id', $user->id)->get();
+
+
 
 
         if ($user->school()->pivot->role == 'student' && $user->cohort_id != null)
@@ -42,12 +45,7 @@ class KnowledgeController extends Controller
             $qcm = [];
         }
 
-
-
-
-
-
-        return view('pages.knowledge.index', compact('qcm', 'cohort'));
+        return view('pages.knowledge.index', compact('qcm', 'cohort', 'user_bilans'));
     }
 
 
@@ -110,16 +108,6 @@ Chaque objet du tableau doit contenir :
 
 Génère maintenant {$number} question(s) selon ces consignes.
 EOT;
-
-
-
-
-
-
-
-
-
-
 
 
         $response = Http::withHeaders([

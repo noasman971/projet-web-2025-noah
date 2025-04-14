@@ -56,56 +56,61 @@
 
     <div class="flex flex-wrap gap-5">
         @foreach($qcm as $qcms)
-        <div class="card bg-base-100 w-96 shadow-sm ">
-            <figure>
-                <img class="object-cover max-h-44"
-                    src="{{$qcms->link}}"
-                   alt="{{$qcms->name}} logo" />
-            </figure>
-            <div class="card-body">
-                <h2 class="card-title">{{$qcms->name}}</h2>
-                @if($qcms->questions)
-                    <p>
-                        {{ $qcms->questions->count() }} questions
-                    </p>
-                @endif
+            <div class="card bg-base-100 w-96 shadow-sm ">
+                <figure>
+                    <img class="object-cover max-h-44"
+                        src="{{$qcms->link}}"
+                       alt="{{$qcms->name}} logo" />
+                </figure>
+                <div class="card-body">
+                    <h2 class="card-title">{{$qcms->name}}</h2>
+                    @if($qcms->questions)
+                        <p>
+                            {{ $qcms->questions->count() }} questions
+                        </p>
+                    @endif
 
-                @can('viewAdmin', \App\Models\CohortsBilans::class)
+                    @can('viewAdmin', \App\Models\CohortsBilans::class)
 
-                    <div class="card-actions justify-start">
-                        <form method="post" action="{{route('knowledge.update', Crypt::encrypt($qcms->id))}}">
-                        @csrf
-                        @method('PUT')
+                        <div class="card-actions justify-start">
+                            <form method="post" action="{{route('knowledge.update', Crypt::encrypt($qcms->id))}}">
+                            @csrf
+                            @method('PUT')
 
-                        <x-forms.dropdown label="Promotions" name="action" class="pr-10" onchange="this.form.submit()">
-                            <option value="" {{ is_null($qcms->cohort_id) ? 'selected' : '' }}>Aucun</option>
-                            @foreach($cohort as $cohorts)
-                                <option value="{{$cohorts->id}}" {{$qcms->cohort_id == $cohorts->id ? 'selected' : ''}}>{{$cohorts->name}}</option>
-                            @endforeach
-                        </x-forms.dropdown>
-                        </form>
+                            <x-forms.dropdown label="Promotions" name="action" class="pr-10" onchange="this.form.submit()">
+                                <option value="" {{ is_null($qcms->cohort_id) ? 'selected' : '' }}>Aucun</option>
+                                @foreach($cohort as $cohorts)
+                                    <option value="{{$cohorts->id}}" {{$qcms->cohort_id == $cohorts->id ? 'selected' : ''}}>{{$cohorts->name}}</option>
+                                @endforeach
+                            </x-forms.dropdown>
+                            </form>
 
-                    </div>
-
-                    <a href="{{route('adminKnowledge.index', Crypt::encrypt($qcms->id))}}">
-                        <div class="card-actions justify-end">
-                            <button class="btn btn-primary">Voir</button>
                         </div>
-                    </a>
-                @endcan
 
-                @can('viewAny', \App\Models\CohortsBilans::class)
-                    <a href="{{route('studentKnowledge.index', Crypt::encrypt($qcms->id))}}">
-                        <div class="card-actions justify-end">
-                            <button class="btn btn-primary">Répondre</button>
-                        </div>
-                    </a>
-                @endcan
+                        <a href="{{route('adminKnowledge.index', Crypt::encrypt($qcms->id))}}">
+                            <div class="card-actions justify-end">
+                                <button class="btn btn-primary">Voir</button>
+                            </div>
+                        </a>
+                    @endcan
+
+                    @can('viewAny', \App\Models\CohortsBilans::class)
+                        @if($user_bilan->bilan_id != $qcms->id)
+                            <a href="{{route('studentKnowledge.index', Crypt::encrypt($qcms->id))}}">
+                                <div class="card-actions justify-end">
+                                    <button class="btn btn-primary">Répondre</button>
+                                </div>
+                            </a>
+                        @endif
 
 
+
+
+                    @endcan
+
+
+                </div>
             </div>
-        </div>
-
 
         @endforeach
 

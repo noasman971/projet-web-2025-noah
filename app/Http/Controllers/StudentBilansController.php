@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CohortsBilans;
-use App\Models\User_bilans;
+use App\Models\UserBilans;
 use Illuminate\Http\Request;
 
 class StudentBilansController extends Controller
@@ -31,7 +31,7 @@ class StudentBilansController extends Controller
             {
                 $qcmnote++;
             }
-            $cohort_bilans = new User_bilans();
+            $cohort_bilans = new UserBilans();
             $cohort_bilans->user_id = auth()->user()->id;
             $cohort_bilans->bilan_id = $qcm->id;
             $cohort_bilans->score = $qcmnote;

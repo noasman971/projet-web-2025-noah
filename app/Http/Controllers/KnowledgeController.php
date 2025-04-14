@@ -26,6 +26,8 @@ class KnowledgeController extends Controller
         $cohort = Cohort::all();
         $user = auth()->user();
 
+        $user_bilans = $user->bilans()->get();
+
 
         if ($user->school()->pivot->role == 'student' && $user->cohort_id != null)
         {
@@ -73,23 +75,24 @@ Tu es un professeur expert en informatique qui souhaite générer un questionnai
 ### Contraintes :
 - Si le langage "{$langage}" n'est pas un langage de programmation reconnu ou n'existe pas, réponds uniquement avec la valeur `null`.
 - Le nombre de réponses par question est défini par la variable `{$nbr_response}` :
-  - Si `{$nbr_response} = 2`, il y aura seulement deux réponses : "answer_0" et "answer_1", et les réponses "answer_2" et "answer_3" seront à `null`.
-  - Si `{$nbr_response} = 3`, il y aura trois réponses : "answer_0", "answer_1", et "answer_2". La réponse "answer_3" sera à `null`.
-  - Si `{$nbr_response} = 4`, toutes les réponses ("answer_0", "answer_1", "answer_2", "answer_3") seront remplies.
-- Les questions doivent être **variées et uniques**, même si la même demande est répétée avec le même langage. Ne réutilise pas les mêmes formulations ou exemples si le langage "{$langage}" est redemandé ultérieurement.
-- Si {$number} = 1, alors la seule question doit être de niveau "débutant". Il ne doit y avoir **aucune** question de niveau "intermédiaire" ou "avancé".
-- Répartis les questions par difficulté de manière suivante : 30% de questions "débutant", 40% "intermédiaire", et 30% "avancé".
-- Le champ "correct_answer" doit contenir directement le **contenu de la bonne réponse** (au lieu de la clé "answer_0", "answer_1", etc.).
-- Chaque objet JSON doit également contenir une clé "link" de type string, qui contient l'URL d'une image trouvée sur Internet représentant visuellement le langage demandé (ex : logo, icône ou image officielle).
+  - Si `{$nbr_response} = 2`, seules "answer_0" et "answer_1" seront remplies. "answer_2" et "answer_3" devront être à `null`.
+  - Si `{$nbr_response} = 3`, "answer_0" à "answer_2" seront remplies. "answer_3" devra être à `null`.
+  - Si `{$nbr_response} = 4`, alors "answer_0" à "answer_3" doivent toutes être remplies.
+- Les questions doivent être **variées et uniques**, même si le même langage est demandé plusieurs fois. Ne réutilise jamais la même question ni les mêmes formulations.
+- Si {$number} = 1, la question doit être uniquement de niveau "débutant".
+- Répartis les questions par difficulté comme suit : 30% "débutant", 40% "intermédiaire", 30% "avancé".
+- Le champ **"correct_answer"** doit contenir la **clé exacte** de la bonne réponse : `"answer_0"`, `"answer_1"`, `"answer_2"` ou `"answer_3"`, selon les cas.
+- **La bonne réponse ne doit pas toujours être `"answer_0"`**. Les bonnes réponses doivent être **réparties aléatoirement** entre les clés disponibles (par exemple, si `{$nbr_response} = 3`, alors "correct_answer" peut être `"answer_0"`, `"answer_1"` ou `"answer_2"`, mais pas toujours la même d’une question à l’autre).
+- Chaque question doit aussi inclure une clé `"link"` avec une URL valide pointant vers une image (logo, icône, etc.) représentative du langage de programmation demandé.
 
 ### Format JSON attendu :
-Réponds uniquement avec un tableau JSON **brut** (sans texte explicatif, sans balise markdown).
-Chaque élément du tableau doit être un objet contenant :
+Réponds uniquement avec un tableau JSON **brut** (pas de texte explicatif, ni de balise markdown).
+Chaque objet du tableau doit contenir :
 - "question" : énoncé de la question
 - "level" : "débutant", "intermédiaire" ou "avancé"
-- "answer_0", "answer_1", "answer_2", "answer_3" : réponses proposées (certaines peuvent être `null` si {$nbr_response} est inférieur à 4)
-- "correct_answer" : le contenu de la bonne réponse (ex. : "Une liste est mutable, un tuple est immutable.")
-- "link" : une URL valide pointant vers une image du langage {$langage}
+- "answer_0", "answer_1", "answer_2", "answer_3" : réponses proposées (certaines peuvent être `null` selon {$nbr_response})
+- "correct_answer" : clé de la bonne réponse ("answer_0", "answer_1", "answer_2" ou "answer_3")
+- "link" : URL d’une image du langage {$langage}
 
 ### Exemple :
 [
@@ -100,13 +103,15 @@ Chaque élément du tableau doit être un objet contenant :
     "answer_1": "Un tuple est mutable, une liste est immutable.",
     "answer_2": "Il n'y a pas de différence.",
     "answer_3": null,
-    "correct_answer": "Une liste est mutable, un tuple est immutable.",
+    "correct_answer": "answer_0",
     "link": "https://www.python.org/static/community_logos/python-logo-generic.svg"
   }
 ]
 
 Génère maintenant {$number} question(s) selon ces consignes.
 EOT;
+
+
 
 
 

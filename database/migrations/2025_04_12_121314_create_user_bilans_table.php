@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_bilans', function (Blueprint $table) {
+        Schema::create('users_bilans', function (Blueprint $table) {
             $table->engine = 'InnoDB';
 
             $table->id();
             $table->timestamps();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('bilan_id')->constrained('cohorts_bilans')->onDelete('cascade');
+            $table->foreignId('user_id')->constrained('users');
+            $table->foreignId('bilan_id')->constrained('cohorts_bilans');
             $table->integer('score')->nullable();
             $table->dateTime('completed_at')->nullable();
         });

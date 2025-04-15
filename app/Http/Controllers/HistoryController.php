@@ -8,7 +8,13 @@ use Illuminate\Http\Request;
 
 class HistoryController extends Controller
 {
+
     use AuthorizesRequests;
+    /**
+     * Display the page with the history of common tasks.
+     * Accessible only to students.
+     * @return \Illuminate\Http\Response
+     */
     public function index()
     {
         $this->authorize('viewAnyStudent', CommonTask::class);

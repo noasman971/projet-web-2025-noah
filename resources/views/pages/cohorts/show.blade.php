@@ -76,7 +76,7 @@
                     </h3>
                 </div>
                 <div class="card-body flex flex-col gap-5">
-                    <x-forms.dropdown name="user_id" :label="__('Etudiant')">
+                    <x-forms.dropdown name="select" :label="__('Etudiant')">
                         <option value="1">Etudiant 1</option>
                     </x-forms.dropdown>
 

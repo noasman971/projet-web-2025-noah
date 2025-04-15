@@ -1,6 +1,6 @@
 @props([
     'label'         => false,
-    'name'          => 'select_name',
+    'name'          => '',
     'value'         => '',
     'disabled'      => false,
     'messages'      => false,
@@ -12,7 +12,7 @@
     @if($label)
         <label class="form-label font-normal text-gray-900">{{ $label }}</label>
     @endif
-    <select class="select {{$class}}" name="select" {{ $disabled ? 'disabled' : '' }} name="{{ $name }}" onchange="{{$onchange}}">
+    <select class="select {{$class}}" name={{$name}} {{ $disabled ? 'disabled' : '' }} name="{{ $name }}" onchange="{{$onchange}}">
         {{ $slot }}
     </select>
 

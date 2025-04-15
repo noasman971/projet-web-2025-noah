@@ -15,7 +15,7 @@
                 {{ session('error') }}
             </div>
         @endif
-        <form method="POST" id="create_qcm" action="{{route('knowledge.qcm')}}" class="card-body flex flex-col gap-5 p-10">
+        <form method="POST" onsubmit="displayLoading()" id="create" action="{{route('knowledge.qcm')}}" class="card-body flex flex-col gap-5 p-10">
             @csrf
             @if ($errors->any())
                 <div class="alert alert-danger">
@@ -38,16 +38,7 @@
 
 
         </form>
-        <script>
-            const form = document.getElementById("create_qcm");
-            const loading = document.querySelector('.loading');
-            const submitButton = document.getElementById("bilan_submit");
 
-            form.addEventListener('submit', function() {
-                loading.classList.remove('hidden');
-                submitButton.setAttribute('disabled', true);
-            });
-        </script>
     @endcan
 
 
@@ -77,7 +68,7 @@
                             @csrf
                             @method('PUT')
 
-                            <x-forms.dropdown label="Promotions" name="action" class="pr-10" onchange="this.form.submit()">
+                            <x-forms.dropdown label="Promotions" name="select" class="pr-10" onchange="this.form.submit()">
                                 <option value="" {{ is_null($qcms->cohort_id) ? 'selected' : '' }}>Aucun</option>
                                 @foreach($cohort as $cohorts)
                                     <option value="{{$cohorts->id}}" {{$qcms->cohort_id == $cohorts->id ? 'selected' : ''}}>{{$cohorts->name}}</option>
@@ -86,13 +77,14 @@
                             </form>
 
                         </div>
-
+                    @endcan
+                    @if($qcms->user_bilans->where('user_id', auth()->id())->isNotEmpty() || $user->school()->pivot->role == 'admin')
                         <a href="{{route('adminKnowledge.index', Crypt::encrypt($qcms->id))}}">
                             <div class="card-actions justify-end">
                                 <button class="btn btn-primary">Voir</button>
                             </div>
                         </a>
-                    @endcan
+                    @endif
 
                     @can('viewAny', \App\Models\CohortsBilans::class)
                         @if($qcms->user_bilans->where('user_id', auth()->id())->isEmpty())

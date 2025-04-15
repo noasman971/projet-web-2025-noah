@@ -15,6 +15,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+
+    <script src="{{ asset('js/main.js')}}" defer></script>
 </head>
 <body class="antialiased flex h-full text-base text-gray-700 [--tw-page-bg:#F6F6F9] [--tw-page-bg-dark:var(--tw-coal-200)]
                 [--tw-content-bg:var(--tw-light)] [--tw-content-bg-dark:var(--tw-coal-500)]

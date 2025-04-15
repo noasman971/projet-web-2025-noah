@@ -11,11 +11,14 @@ class Cohort extends Model
 
     public function commonTasks()
     {
-        return $this->hasOne(CommonTask::class);
+        return $this->hasMany(CommonTask::class, 'cohort_id');
     }
     public function users()
     {
         return $this->hasMany(User::class);
     }
+
+
+
 
 }

@@ -10,6 +10,7 @@ use App\Models\UserBilans;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Foundation\Application;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Http\Request;
 use Gemini\Laravel\Facades\Gemini;
 use Illuminate\Support\Facades\Http;
@@ -18,18 +19,14 @@ use Illuminate\Support\Facades\Http;
 class KnowledgeController extends Controller
 {
     /**
-     * Display the page
-     *
+     * Display the page of knowledge
+     * The student can see the QCMs of his cohort
+     * The admin and teacher can see all QCMs
      * @return Factory|View|Application|object
      */
     public function index() {
-
         $cohort = Cohort::all();
         $user = auth()->user();
-
-
-
-
 
         if ($user->school()->pivot->role == 'student' && $user->cohort_id != null)
         {
@@ -44,20 +41,20 @@ class KnowledgeController extends Controller
             $qcm = [];
         }
 
-
-        return view('pages.knowledge.index', compact('qcm', 'cohort'));
+        return view('pages.knowledge.index', compact('qcm', 'cohort', 'user'));
     }
 
 
-
-
-
-
     /**
-     * Create a new QCM
+     * Connect to the Gemini API
+     * Generate a QCM in JSON format
+     * The QCM is generated based on the language and the number of questions and answers
+     * Create a new QCM in the database
+     * Create the questions in the database
      *
      * @param KnowledgeCreateRequest $request
      * @return \Illuminate\Http\RedirectResponse
+     * @throws ConnectionException
      */
     public function createQcm(KnowledgeCreateRequest $request)
     {
@@ -68,34 +65,57 @@ class KnowledgeController extends Controller
         $nbr_response = $request->input('response');
 
         $prompt = <<<EOT
-Tu es un professeur expert en informatique qui souhaite générer un questionnaire à choix multiples (QCM) pour ses élèves sur le langage {$langage}. Tu dois créer un tableau JSON contenant exactement {$number} questions, classées par niveau de difficulté : "débutant", "intermédiaire", et "avancé", avec une répartition de 30% de questions simples, 40% de questions moyennes et 30% de questions difficiles.
+Tu es un professeur expert en informatique qui souhaite générer un questionnaire à choix multiples (QCM) pour ses élèves sur le langage de programmation suivant : "{$langage}".
 
-### Contraintes :
-- Si le langage "{$langage}" n'est pas un langage de programmation reconnu ou n'existe pas, réponds uniquement avec la valeur `null`.
-- Le nombre de réponses par question est défini par la variable `{$nbr_response}` :
-  - Si `{$nbr_response} = 2`, seules "answer_0" et "answer_1" seront remplies. "answer_2" et "answer_3" devront être à `null`.
-  - Si `{$nbr_response} = 3`, "answer_0" à "answer_2" seront remplies. "answer_3" devra être à `null`.
-  - Si `{$nbr_response} = 4`, alors "answer_0" à "answer_3" doivent toutes être remplies.
-- Les questions doivent être **variées et uniques**, même si le même langage est demandé plusieurs fois. Ne réutilise jamais la même question ni les mêmes formulations.
-- Si {$number} = 1, la question doit être uniquement de niveau "débutant".
-- Répartis les questions par difficulté comme suit : 30% "débutant", 40% "intermédiaire", 30% "avancé".
-- Le champ **"correct_answer"** doit contenir la **clé exacte** de la bonne réponse : `"answer_0"`, `"answer_1"`, `"answer_2"` ou `"answer_3"` (selon le nombre de réponses).
-- **La clé de la bonne réponse ("correct_answer") ne doit pas toujours être la même.** Évite qu’elle soit identique d'une question à l'autre. Par exemple, il ne faut **presque jamais** avoir `"correct_answer": "answer_0"` plusieurs fois de suite.
-- Chaque question doit inclure une clé `"link"` contenant une **URL d’image valide** (logo, icône, etc.) du langage demandé. Cette URL doit :
-  - Pointer vers une **image réellement accessible** (code HTTP 200),
-  - Ne **pas rediriger vers une page avec un titre comme "Page Not Found"** (ou "Not Found", "404", etc.),
-  - Montrer un **logo ou une illustration pertinente** liée au langage {$langage}.
+### 🔍 Vérification préalable :
+Avant de générer quoi que ce soit, vérifie si "{$langage}" est **un langage de programmation reconnu et réellement existant** (par exemple : Python, JavaScript, Java, C++, Go, Rust, PHP, etc.).
+Si ce n'est **pas** un langage connu ou s'il n'existe **pas réellement**, réponds **strictement** par la valeur : `null`.
 
-### Format JSON attendu :
-Réponds uniquement avec un tableau JSON **brut** (aucun texte explicatif, aucune balise markdown).
-Chaque objet du tableau doit contenir :
-- "question" : énoncé de la question
-- "level" : "débutant", "intermédiaire" ou "avancé"
-- "answer_0", "answer_1", "answer_2", "answer_3" : réponses proposées (certaines peuvent être `null` selon {$nbr_response})
-- "correct_answer" : clé de la bonne réponse (ex. : `"answer_1"`, `"answer_2"`, etc.)
-- "link" : URL d’une image en ligne valide (retourne HTTP 200 et **n'affiche pas une page dont le titre est "Page Not Found"**)
+---
 
-### Exemple :
+### ✅ Objectif :
+Créer un tableau JSON contenant exactement {$number} questions sur "{$langage}", en respectant le nombre de réponses par question défini par : `{$nbr_response}`.
+
+### 📊 Répartition des difficultés :
+- Si {$number} = 1, la seule question doit être de niveau **"débutant"**.
+- Sinon, répartis comme suit :
+  - 30% de questions **débutant**
+  - 40% de questions **intermédiaire**
+  - 30% de questions **avancé**
+
+### 🧠 Réponses attendues :
+- Chaque question contient entre 2 et 4 réponses selon la valeur de `{$nbr_response}` :
+  - Si `{$nbr_response} = 2` → utilise uniquement `"answer_0"` et `"answer_1"` ; mets `"answer_2"` et `"answer_3"` à `null`.
+  - Si `{$nbr_response} = 3` → remplis `"answer_0"` à `"answer_2"`, mets `"answer_3"` à `null`.
+  - Si `{$nbr_response} = 4` → remplis `"answer_0"` à `"answer_3"`.
+- Le champ `"correct_answer"` doit contenir **uniquement une des clés suivantes** : `"answer_0"`, `"answer_1"`, `"answer_2"` ou `"answer_3"`.
+- **Important :** Ne mets **presque jamais** la même clé dans `"correct_answer"` pour toutes les questions. La bonne réponse ne doit **pas être toujours `"answer_0"`** par exemple. Il doit y avoir **de la variété**.
+
+---
+
+### 🖼️ Image :
+- Chaque question doit aussi contenir une **clé `"link"`** avec l’URL d’une **image réellement accessible** en rapport avec le langage demandé.
+- Cette image doit :
+  - Être en ligne et **retourner un code HTTP 200**,
+  - **Ne pas** rediriger vers une page dont le titre contient **"Page Not Found"**, **"404"**, ou un message d’erreur,
+  - Être une **image pertinente** liée au langage (logo officiel, illustration représentative, etc.).
+
+---
+
+### 📦 Format attendu :
+Réponds uniquement avec un **tableau JSON brut**. Aucune balise `json`, pas de texte supplémentaire.
+
+Chaque objet JSON du tableau doit inclure :
+- `"question"` : l'énoncé de la question
+- `"level"` : "débutant", "intermédiaire" ou "avancé"
+- `"answer_0"`, `"answer_1"`, `"answer_2"`, `"answer_3"` : les réponses (certaines peuvent être `null`)
+- `"correct_answer"` : la **clé exacte** correspondant à la bonne réponse (ex : `"answer_1"`)
+- `"link"` : une **URL d’image valide**, vérifiée, et liée au langage
+
+---
+
+### 🧪 Exemple de résultat :
+```json
 [
   {
     "question": "Quelle est la différence entre une liste et un tuple en Python ?",
@@ -108,10 +128,7 @@ Chaque objet du tableau doit contenir :
     "link": "https://www.python.org/static/community_logos/python-logo-generic.svg"
   }
 ]
-
-Génère maintenant {$number} question(s) selon ces consignes.
 EOT;
-
 
 
         $response = Http::withHeaders([
@@ -119,7 +136,6 @@ EOT;
         ])->post($url, [
             'contents' => [
                 [
-                    //add prompt in the request
                     'parts' => [
                         ['text' => $prompt]
                     ]
@@ -128,6 +144,7 @@ EOT;
         ]);
         $text = $response->json('candidates.0.content.parts.0.text');
 
+        // Remove the "```json" and "```" from the beginning and end of the response
         $cleanJson = preg_replace('/^```json\s*/', '', $text);
         $cleanJson = preg_replace('/\s*```$/', '', $cleanJson);
 
@@ -157,7 +174,12 @@ EOT;
         return redirect()->route('knowledge.index');
     }
 
-
+    /**
+     * Edit the cohort of a QCM
+     * @param Request $request
+     * @param $id
+     * @return Factory|View|Application|object
+     */
     public function updateQcmCohort(Request $request, $id)
     {
         $id = decrypt($id);

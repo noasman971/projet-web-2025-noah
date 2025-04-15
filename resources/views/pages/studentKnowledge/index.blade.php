@@ -15,12 +15,6 @@
         {{$note}}
     </div>
 
-    <script>
-        const hours = document.getElementById('hours');
-        const minutes = document.getElementById('minutes');
-        const seconds = document.getElementById('secondes');
-        let countdown = hours.innerText * 3600 + minutes.innerText * 60 + seconds.innerText;
-    </script>
 
 
 
@@ -70,7 +64,6 @@
             const hiddenInput = document.querySelector('input[name="answer"]');
             hiddenInput.value = answer;
         }
-
     </script>
 
 

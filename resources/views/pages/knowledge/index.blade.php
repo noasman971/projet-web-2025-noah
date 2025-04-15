@@ -95,20 +95,13 @@
                     @endcan
 
                     @can('viewAny', \App\Models\CohortsBilans::class)
-                        @if(!$qcms->user_bilans->where('user_id', auth()->id())->isNotEmpty())
+                        @if($qcms->user_bilans->where('user_id', auth()->id())->isEmpty())
                             <a href="{{route('studentKnowledge.index', Crypt::encrypt($qcms->id))}}">
                                 <div class="card-actions justify-end">
                                     <button class="btn btn-primary">Répondre</button>
                                 </div>
                             </a>
                         @endif
-
-
-
-
-
-
-
                     @endcan
 
 

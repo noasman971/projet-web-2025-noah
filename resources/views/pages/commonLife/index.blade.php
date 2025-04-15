@@ -22,7 +22,7 @@
                 </ul>
             </div>
         @endif
-        <form method="POST" class="card-body flex flex-col gap-5 p-10" action="{{ route('common-life.create') }}">
+        <form method="POST" class="card-body flex flex-col gap-5 p-10 "  action="{{ route('common-life.create') }}">
             @csrf
 
             <x-forms.input label="{{ __('Nom de la tâche') }}" name="name"
@@ -41,7 +41,7 @@
                 </h3>
             </div>
             <div class="card-table">
-                <table class="table table-border align-middle text-gray-700 font-medium text-sm">
+                <table class="table table-border align-middle text-gray-700 font-medium text-sm ">
                     <thead>
                     <tr>
                         <th>
@@ -140,12 +140,11 @@
 
 
 
-        <div class="px-4 py-2 flex ">
+        <div class="px-4 py-2 flex items-center">
 
             <h1 class="text-gray-800 font-bold text-2xl uppercase">Tâches communes</h1>
-            <a href="{{route('history.index')}}"  class="absolute top-0 right-0 text-5xl mt-2.5">
+            <a href="{{route('history.index')}}"  class="text-4xl px-10">
                 <i class="ki-filled ki-time"></i>
-
             </a>
 
         </div>

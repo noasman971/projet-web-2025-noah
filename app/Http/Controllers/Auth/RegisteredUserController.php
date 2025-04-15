@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\UserSchool;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -42,6 +43,12 @@ class RegisteredUserController extends Controller
             'email'         => $request->email,
             'password'      => Hash::make($request->password),
         ]);
+
+        $user_school = new UserSchool();
+        $user_school->user_id = $user->id;
+        $user_school->school_id = 1;
+        $user_school->role = 'student';
+        $user_school->save();
 
         event(new Registered($user));
 

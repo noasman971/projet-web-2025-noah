@@ -38,20 +38,53 @@
                         <li>
                             D. {{ $questions[$index]->answer_3 }}
                         </li>
-                        <li>
-                            <span class="text-sm font-bold text-gray-500">Réponse correcte : {{ $questions[$index]->correct_answer }}</span>
-                        </li>
                     @endif
+                    @switch($questions[$index]->correct_answer)
+                        @case("answer_0")
+                            <li>
+                                <span class="text-sm font-bold text-gray-500">Réponse correcte : {{ $questions[$index]->answer_0 }}</span>
+                            </li>
+                            @break
+                        @case("answer_1")
+                            <li>
+                                <span class="text-sm font-bold text-gray-500">Réponse correcte : {{ $questions[$index]->answer_1 }}</span>
+                            </li>
+                            @break
+                        @case("answer_2")
+                            <li>
+                                <span class="text-sm font-bold text-gray-500">Réponse correcte : {{ $questions[$index]->answer_2 }}</span>
+                            </li>
+                            @break
+                        @case("answer_3")
+                            <li>
+                                <span class="text-sm font-bold text-gray-500">Réponse correcte : {{ $questions[$index]->answer_3 }}</span>
+                            </li>
+                            @break
+
+                    @endswitch
 
 
                 </ul>
-
             </div>
+        </div>
+
 
 
 
     @endfor
 
+
+    <div class="card bg-base-100 shadow-sm p-5 mt-5">
+        <h1 class="text-lg font-bold">Résultats</h1>
+
+        @foreach($user_bilans as $user_bilan)
+            <div class="py-2 text-lg font-bold">
+
+            {{$user_bilan->user->first_name}} {{$user_bilan->user->last_name}} : {{$user_bilan->score}} / {{$qcm->questions()->count()}} ({{round($user_bilan->score / $qcm->questions()->count() * 20, 2)}} / 20)
+            <div>
+        @endforeach
+
+    </div>
 
 
 </x-app-layout>

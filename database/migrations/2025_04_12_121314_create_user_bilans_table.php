@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->timestamps();
             $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('bilan_id')->constrained('cohorts_bilans');
+            $table->foreignId('bilan_id')->constrained('cohorts_bilans')->onDelete('cascade');
             $table->integer('score')->nullable();
             $table->dateTime('completed_at')->nullable();
         });

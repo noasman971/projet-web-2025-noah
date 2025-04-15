@@ -12,63 +12,34 @@ class StudentBilansController extends Controller
     {
         $id = decrypt($id);
 
-        $qcm = CohortsBilans::find($id);
+        $qcm = CohortsBilans::findOrFail($id);
         $questions = $qcm->questions()->get();
 
+        $questionIndex = (int) $request->input('questionIndex', -1);
+        $note = (int) $request->input('qcmnote', 0);
+        $userAnswer = $request->input('answer');
 
-
-        $questionIndex = $request->input('questionIndex', -1);
-
-        $qcmnote = $request->input('qcmnote', 0);
-        $buttonsubmit = $request->input('answer');
-
-
-
-
-        if ($questionIndex == count($questions)-1)
-        {
-            if ($buttonsubmit == $questions->get($questionIndex)->correct_answer)
-            {
-                $qcmnote++;
+        if ($questionIndex >= 0 && $questionIndex < count($questions)) {
+            $currentQuestion = $questions->get($questionIndex);
+            if ($userAnswer === $currentQuestion->correct_answer) {
+                $note++;
             }
-            $cohort_bilans = new UserBilans();
-            $cohort_bilans->user_id = auth()->user()->id;
-            $cohort_bilans->bilan_id = $qcm->id;
-            $cohort_bilans->score = $qcmnote;
-            $cohort_bilans->save();
+        }
+
+        if ($questionIndex === count($questions) - 1) {
+            UserBilans::create([
+                'user_id' => auth()->id(),
+                'bilan_id' => $qcm->id,
+                'score' => $note,
+            ]);
 
             return redirect()->route('knowledge.index');
         }
-        else{
-            $questionIndex = $questionIndex + 1;
-        }
 
-
-
-        $i = $questionIndex;
-        $note = $qcmnote;
-
-
-
-
-
-        if ($buttonsubmit == $questions->get($i)->correct_answer)
-        {
-            $note++;
-        }
-
-
-
-
-
-
-
+        $i = $questionIndex + 1;
 
 
         return view('pages.studentKnowledge.index', compact('questions', 'qcm', 'i', 'note'));
     }
-
-
-
 
 }

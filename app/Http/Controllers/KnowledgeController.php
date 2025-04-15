@@ -44,9 +44,6 @@ class KnowledgeController extends Controller
             $qcm = [];
         }
 
-//        foreach ($qcm as $qcms) {
-//            dump($qcms->user_bilans[0]->score);
-//        }
 
         return view('pages.knowledge.index', compact('qcm', 'cohort'));
     }
@@ -82,18 +79,21 @@ Tu es un professeur expert en informatique qui souhaite générer un questionnai
 - Les questions doivent être **variées et uniques**, même si le même langage est demandé plusieurs fois. Ne réutilise jamais la même question ni les mêmes formulations.
 - Si {$number} = 1, la question doit être uniquement de niveau "débutant".
 - Répartis les questions par difficulté comme suit : 30% "débutant", 40% "intermédiaire", 30% "avancé".
-- Le champ **"correct_answer"** doit contenir la **clé exacte** de la bonne réponse : `"answer_0"`, `"answer_1"`, `"answer_2"` ou `"answer_3"`, selon les cas.
-- **La bonne réponse ne doit pas toujours être `"answer_0"`**. Les bonnes réponses doivent être **réparties aléatoirement** entre les clés disponibles (par exemple, si `{$nbr_response} = 3`, alors "correct_answer" peut être `"answer_0"`, `"answer_1"` ou `"answer_2"`, mais pas toujours la même d’une question à l’autre).
-- Chaque question doit aussi inclure une clé `"link"` avec une URL valide pointant vers une image (logo, icône, etc.) représentative du langage de programmation demandé.
+- Le champ **"correct_answer"** doit contenir la **clé exacte** de la bonne réponse : `"answer_0"`, `"answer_1"`, `"answer_2"` ou `"answer_3"` (selon le nombre de réponses).
+- **La clé de la bonne réponse ("correct_answer") ne doit pas toujours être la même.** Évite qu’elle soit identique d'une question à l'autre. Par exemple, il ne faut **presque jamais** avoir `"correct_answer": "answer_0"` plusieurs fois de suite.
+- Chaque question doit inclure une clé `"link"` contenant une **URL d’image valide** (logo, icône, etc.) du langage demandé. Cette URL doit :
+  - Pointer vers une **image réellement accessible** (code HTTP 200),
+  - Ne **pas rediriger vers une page avec un titre comme "Page Not Found"** (ou "Not Found", "404", etc.),
+  - Montrer un **logo ou une illustration pertinente** liée au langage {$langage}.
 
 ### Format JSON attendu :
-Réponds uniquement avec un tableau JSON **brut** (pas de texte explicatif, ni de balise markdown).
+Réponds uniquement avec un tableau JSON **brut** (aucun texte explicatif, aucune balise markdown).
 Chaque objet du tableau doit contenir :
 - "question" : énoncé de la question
 - "level" : "débutant", "intermédiaire" ou "avancé"
 - "answer_0", "answer_1", "answer_2", "answer_3" : réponses proposées (certaines peuvent être `null` selon {$nbr_response})
-- "correct_answer" : clé de la bonne réponse ("answer_0", "answer_1", "answer_2" ou "answer_3")
-- "link" : URL d’une image du langage {$langage}
+- "correct_answer" : clé de la bonne réponse (ex. : `"answer_1"`, `"answer_2"`, etc.)
+- "link" : URL d’une image en ligne valide (retourne HTTP 200 et **n'affiche pas une page dont le titre est "Page Not Found"**)
 
 ### Exemple :
 [
@@ -111,6 +111,7 @@ Chaque objet du tableau doit contenir :
 
 Génère maintenant {$number} question(s) selon ces consignes.
 EOT;
+
 
 
         $response = Http::withHeaders([

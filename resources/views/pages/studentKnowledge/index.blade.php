@@ -41,11 +41,11 @@
 
                     </li>
                     <li>
-                        <x-forms.primary-button id="answer_1"> B. {{ $questions[$i]->answer_1 }}</x-forms.primary-button>
+                        <x-forms.primary-button id="answer_1" onclick="const answer = this.id; setAnswer(answer);"> B. {{ $questions[$i]->answer_1 }}</x-forms.primary-button>
                     </li>
                     @if($questions[$i]->answer_2)
                         <li>
-                            <x-forms.primary-button id="answer_2">C. {{ $questions[$i]->answer_2 }}</x-forms.primary-button>
+                            <x-forms.primary-button id="answer_2" onclick="const answer = this.id; setAnswer(answer);">C. {{ $questions[$i]->answer_2 }}</x-forms.primary-button>
                         </li>
                     @endif
                     @if($questions[$i]->answer_3)
@@ -72,51 +72,6 @@
         }
 
     </script>
-
-
-
-
-
-
-
-{{--@for($index = 0; $index < $questions->count(); $index++)
-    <div class="card bg-base-100 shadow-sm ">
-        <div class="p-5 text-lg font-bold">
-            {{$index+1}}.
-            {{ $questions[$index]->question }}
-        </div>
-
-        <div class="card-body">
-            <ul>
-                <li>
-                    <x-forms.primary-button> A. {{ $questions[$index]->answer_0 }}</x-forms.primary-button>
-
-                </li>
-                <li>
-                    <x-forms.primary-button> B. {{ $questions[$index]->answer_1 }}</x-forms.primary-button>
-                </li>
-                @if($questions[$index]->answer_2)
-                    <li>
-                        <x-forms.primary-button>C. {{ $questions[$index]->answer_2 }}</x-forms.primary-button>
-                    </li>
-                @endif
-                @if($questions[$index]->answer_3)
-                    <li>
-                        <x-forms.primary-button>D. {{ $questions[$index]->answer_3 }}</x-forms.primary-button>
-                    </li>
-                    <li>
-                        <span class="text-sm font-bold text-gray-500">Réponse correcte : {{ $questions[$index]->correct_answer }}</span>
-                    </li>
-                @endif
-
-
-            </ul>
-
-        </div>
-
-
-
-@endfor--}}
 
 
 

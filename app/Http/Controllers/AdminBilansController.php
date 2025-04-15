@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\CohortsBilans;
+use App\Models\UserBilans;
 use Illuminate\Http\Request;
 
 class AdminBilansController extends Controller
@@ -12,7 +13,15 @@ class AdminBilansController extends Controller
         $id = decrypt($id);
         $qcm = CohortsBilans::find($id);
         $questions = $qcm->questions()->get();
-        return view('pages.adminKnowledge.index', compact('questions', 'qcm'));
+
+
+
+        $user_bilans = UserBilans::where('bilan_id', $id)->get();
+
+
+
+
+        return view('pages.adminKnowledge.index', compact('questions', 'qcm', 'user_bilans'));
     }
 
 }

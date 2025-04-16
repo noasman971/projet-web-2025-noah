@@ -11,14 +11,12 @@
 
 
     </x-slot>
-    <div>
-        {{$note}}
-    </div>
 
 
 
 
-    <form method="GET"  action="{{route('studentKnowledge.index', Crypt::encrypt($qcm->id))}}">
+
+    <form method="GET" id="create" action="{{route('studentKnowledge.index', Crypt::encrypt($qcm->id))}}">
         <div class="card bg-base-100 shadow-sm ">
             <div class="p-5 text-lg font-bold">
                 {{$i+1}}.
@@ -50,21 +48,17 @@
                         </li>
 
                     @endif
-                    <li>
-                        <span class="text-sm font-bold text-gray-500">Réponse correcte : {{ $questions[$i]->correct_answer }}</span>
-                    </li>
+
+
+
 
                 </ul>
 
             </div>
         </div>
+        <span class="loading loading-dots loading-xl mx-auto hidden"></span>
+
     </form>
-    <script>
-        function setAnswer(answer) {
-            const hiddenInput = document.querySelector('input[name="answer"]');
-            hiddenInput.value = answer;
-        }
-    </script>
 
 
 

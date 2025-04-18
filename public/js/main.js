@@ -17,6 +17,18 @@ function setAnswer(answer) {
   var hiddenInput = document.querySelector('input[name="answer"]');
   hiddenInput.value = answer;
 }
+function uncheck(checkbox) {
+  var checkboxes = document.querySelectorAll('.uncheckedboc');
+  var hiddenInputs = checkboxes;
+  hiddenInputs.forEach(function (hiddenInput) {
+    if (!checkbox.checked) {
+      hiddenInput.value += checkbox.value;
+    } else {
+      hiddenInput.value = null;
+    }
+  });
+}
 window.setAnswer = setAnswer;
+window.uncheck = uncheck;
 /******/ })()
 ;

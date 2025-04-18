@@ -19,7 +19,6 @@ return new class extends Migration
             $table->boolean('validate')->default(false);
             $table->unsignedBigInteger('user_id')->nullable();
             $table->string('commentary', 1000)->nullable();
-            $table->unsignedBigInteger('cohort_id')->nullable();
             $table->timestamps();
         });
     }

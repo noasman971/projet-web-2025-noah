@@ -18,6 +18,20 @@ function setAnswer(answer) {
     hiddenInput.value = answer;
 
 }
-window.setAnswer = setAnswer;
+function uncheck(checkbox) {
+    const checkboxes =  document.querySelectorAll('.uncheckedboc');
+    const hiddenInputs = checkboxes
+    hiddenInputs.forEach(hiddenInput => {
+        if (!checkbox.checked) {
+            hiddenInput.value += checkbox.value;
 
+        } else {
+            hiddenInput.value = null;
+
+        }
+    });
+}
+
+window.setAnswer = setAnswer;
+window.uncheck = uncheck;
 

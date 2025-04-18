@@ -103,12 +103,24 @@
                                     </td>
 
                                     <td>
-                                        <x-forms.dropdown name="cohort" class="pr-20" onchange="this.form.submit()">
-                                            <option value="" {{ is_null($commonTask->cohort_id) ? 'selected' : '' }}>Aucun</option>
+                                        <fieldset class="w-40">
                                             @foreach($cohort as $cohorts)
-                                                <option value="{{$cohorts->id}}" {{$commonTask->cohort_id == $cohorts->id ? 'selected' : ''}}>{{$cohorts->name}}</option>
+
+                                                <div>
+                                                    <input type="checkbox" id="coding" name="cohort"
+                                                           onclick="uncheck(this)"
+                                                           value="{{$cohorts->id}}"
+                                                           {{ $cohort_task->where('common_task_id', $commonTask->id)->contains('cohort_id', $cohorts->id) ? 'checked' : '' }}
+                                                           onchange="this.form.submit()" />
+                                                    <label for="coding">{{$cohorts->name}}</label>
+                                                </div>
                                             @endforeach
-                                        </x-forms.dropdown>
+                                            <input type="hidden" class="uncheckedboc" name="cohort_unechecked" value="">
+
+
+
+                                        </fieldset>
+
 
                                     </td>
 
@@ -213,18 +225,6 @@
                 @endif
             @endforeach
         </div>
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
